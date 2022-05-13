@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Pedidos extends StatefulWidget {
-  const Pedidos({Key? key}) : super(key: key);
+class Pedido extends StatefulWidget {
+  const Pedido({Key? key}) : super(key: key);
 
   @override
-  State<Pedidos> createState() => _PedidosState();
+  State<Pedido> createState() => _PedidoState();
 }
 
-class _PedidosState extends State<Pedidos> {
+class _PedidoState extends State<Pedido> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
