@@ -1,5 +1,6 @@
+import 'package:delivery_app_customer/screens/perfil/endereco.dart';
 import 'package:delivery_app_customer/screens/perfil/list_item.dart';
-import 'package:delivery_app_customer/screens/perfil/pagamentos.dart';
+import 'package:delivery_app_customer/screens/perfil/pagamento.dart';
 import 'package:delivery_app_customer/screens/user/user_sign_in.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,7 @@ class _PerfilState extends State<Perfil> {
       subTitle: 'Meus pagamentos e cartões',
       icon: Icons.payment,
       event: (context) {
-        Navigator.of(context).pushNamed(Pagamentos.routeName);
+        Navigator.of(context).pushNamed(Pagamento.routeName);
       },
     ),
     ListItem(
@@ -33,7 +34,7 @@ class _PerfilState extends State<Perfil> {
       subTitle: 'Meus endereços para entrega',
       icon: Icons.location_pin,
       event: (context) {
-        // Navigator.of(context).pushNamed(MedicoList.routeName);
+        Navigator.of(context).pushNamed(Endereco.routeName);
       },
     ),
     ListItem(
@@ -117,7 +118,6 @@ class _PerfilState extends State<Perfil> {
                         ),
                       ),
                     ],
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
                   ),
                 ),
               ),

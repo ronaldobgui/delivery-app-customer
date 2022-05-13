@@ -1,5 +1,5 @@
 import 'package:delivery_app_customer/screens/inicio/inicio.dart';
-import 'package:delivery_app_customer/screens/pedidos/pedidos.dart';
+import 'package:delivery_app_customer/screens/pedido/pedido.dart';
 import 'package:delivery_app_customer/screens/perfil/perfil.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
       body: IndexedStack(
         children: const [
           Inicio(),
-          Pedidos(),
+          Pedido(),
           Perfil(),
         ],
         index: _selectedPage,

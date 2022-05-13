@@ -1,17 +1,17 @@
+import 'package:delivery_app_customer/screens/perfil/cartao.dart';
 import 'package:delivery_app_customer/screens/perfil/list_item.dart';
 import 'package:flutter/material.dart';
 
-class Pagamentos extends StatefulWidget {
+class Pagamento extends StatefulWidget {
+  static const String routeName = '/pagamento';
 
-  static const String routeName = '/pagamentos';
-
-  const Pagamentos({Key? key}) : super(key: key);
+  const Pagamento({Key? key}) : super(key: key);
 
   @override
-  State<Pagamentos> createState() => _PagamentosState();
+  State<Pagamento> createState() => _PagamentoState();
 }
 
-class _PagamentosState extends State<Pagamentos> {
+class _PagamentoState extends State<Pagamento> {
   final List<ListItem> _list = [
     ListItem(
       title: 'Histórico',
@@ -26,7 +26,7 @@ class _PagamentosState extends State<Pagamentos> {
       subTitle: 'Meus cartões',
       icon: Icons.credit_card,
       event: (context) {
-        // Navigator.of(context).pushNamed(MedicoList.routeName);
+        Navigator.of(context).pushNamed(Cartao.routeName);
       },
     ),
   ];
