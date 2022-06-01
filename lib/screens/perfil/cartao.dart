@@ -14,7 +14,7 @@ class _CartaoState extends State<Cartao> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Endereços'),
+        title: const Text('Cartões'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
