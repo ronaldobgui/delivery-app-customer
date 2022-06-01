@@ -116,7 +116,7 @@ class _EnderecoAddState extends State<EnderecoAdd> {
                 }
                 //
                 else {
-                  return const Text('Comece a digitar exibir as sugestões');
+                  return const Text('Comece a digitar para exibir as sugestões');
                 }
               }),
             )
