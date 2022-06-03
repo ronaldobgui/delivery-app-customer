@@ -4,11 +4,11 @@ import 'package:delivery_app_customer/dto/usuario.dart';
 class Cliente extends EntityBase {
   String nome;
   String cpf;
-  String dataNascimento;
+  DateTime dataNascimento;
   Usuario usuario;
 
   Cliente({
-    int? id,
+    required int id,
     required this.nome,
     required this.cpf,
     required this.dataNascimento,
@@ -21,7 +21,7 @@ class Cliente extends EntityBase {
       'id': id,
       'nome': nome,
       'telefone': cpf,
-      'dataNascimento': dataNascimento,
+      'dataNascimento': dataNascimento.toIso8601String(),
       'usuario': usuario.toMap(),
     };
   }
@@ -29,7 +29,7 @@ class Cliente extends EntityBase {
   Cliente.fromMap(Map<String, dynamic> map)
       : nome = map['nome'],
         cpf = map['telefone'],
-        dataNascimento = map['dataNascimento'],
+        dataNascimento = DateTime.parse(map['dataNascimento']),
         usuario = Usuario.fromMap(map['usuario']),
         super(id: map['id']);
 }

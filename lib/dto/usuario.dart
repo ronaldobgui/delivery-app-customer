@@ -8,7 +8,7 @@ class Usuario extends EntityBase {
   DateTime dataCadastro;
 
   Usuario({
-    int? id,
+    required int id,
     required this.nome,
     required this.telefone,
     required this.email,
@@ -24,7 +24,7 @@ class Usuario extends EntityBase {
       'telefone': telefone,
       'email': email,
       'senha': senha,
-      'dataCadastro': dataCadastro,
+      'dataCadastro': dataCadastro.toIso8601String(),
     };
   }
 

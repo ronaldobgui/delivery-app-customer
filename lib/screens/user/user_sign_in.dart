@@ -1,7 +1,9 @@
+import 'package:delivery_app_customer/dto/usuario.dart';
 import 'package:delivery_app_customer/screens/home/home.dart';
 import 'package:delivery_app_customer/screens/mask/phone_mask.dart';
 import 'package:delivery_app_customer/screens/user/user_sign_email.dart';
 import 'package:delivery_app_customer/screens/user/user_sign_up.dart';
+import 'package:delivery_app_customer/service/authentication_service.dart';
 import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +18,17 @@ class UserSignIn extends StatefulWidget {
 
 class _UserSignInState extends State<UserSignIn> {
   final _formKey = GlobalKey<FormState>();
+
+  final _usuario = Usuario(
+    id: 0,
+    email: '',
+    nome: '',
+    senha: '12345678',
+    telefone: '(65) 99624-2881',
+    dataCadastro: DateTime.now(),
+  );
+
+  final _service = AuthenticationService();
 
   late final TextInputMask _phoneMask;
 
@@ -56,6 +69,10 @@ class _UserSignInState extends State<UserSignIn> {
                       height: 60,
                     ),
                     TextFormField(
+                      initialValue: _usuario.telefone,
+                      onSaved: (value) {
+                        _usuario.telefone = value!.replaceAll(RegExp(r'\D'), '');
+                      },
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Telefone',
@@ -69,6 +86,10 @@ class _UserSignInState extends State<UserSignIn> {
                       height: 15,
                     ),
                     TextFormField(
+                      initialValue: _usuario.senha,
+                      onSaved: (value) {
+                        _usuario.senha = value!;
+                      },
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Senha',
@@ -85,11 +106,46 @@ class _UserSignInState extends State<UserSignIn> {
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.all(20),
                       ),
-                      onPressed: () {
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                          Home.routeName,
-                          (route) => false,
-                        );
+                      onPressed: () async {
+                        var state = _formKey.currentState;
+                        if (state != null) {
+                          state.save();
+                        }
+                        if (state != null && state.validate()) {
+                          try {
+                            await _service.getToken(_usuario);
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                              Home.routeName,
+                              (route) => false,
+                            );
+                          }
+                          //
+                          catch (error) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Erro'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: const [
+                                          Text('Credenciais incorretas'),
+                                        ],
+                                      ),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        child: const Text('Ok'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                          }
+                        }
                       },
                     ),
                     const SizedBox(
@@ -111,8 +167,7 @@ class _UserSignInState extends State<UserSignIn> {
                         padding: const EdgeInsets.all(15),
                       ),
                       onPressed: () {
-                        Navigator.of(context)
-                            .pushNamed(UserSignInEmail.routeName);
+                        Navigator.of(context).pushNamed(UserSignInEmail.routeName);
                       },
                     ),
                     TextButton(
