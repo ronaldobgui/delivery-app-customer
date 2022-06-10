@@ -3,6 +3,7 @@ import 'package:delivery_app_customer/dto/usuario.dart';
 import 'package:delivery_app_customer/repository/cliente_repository.dart';
 import 'package:delivery_app_customer/repository/interface/repository.dart';
 import 'package:delivery_app_customer/repository/usuario_repository.dart';
+import 'package:delivery_app_customer/screens/component/full_scroll.dart';
 import 'package:delivery_app_customer/screens/home/home.dart';
 import 'package:delivery_app_customer/screens/mask/cpf_mask.dart';
 import 'package:delivery_app_customer/screens/mask/date_mask.dart';
@@ -68,8 +69,7 @@ class _MeusDadosState extends State<MeusDados> {
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          return SingleChildScrollView(
-            child: ConstrainedBox(
+          return FullScroll(
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Form(
@@ -284,15 +284,9 @@ class _MeusDadosState extends State<MeusDados> {
                       ),
                     ],
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.start,
                   ),
                 ),
               ),
-              constraints: BoxConstraints(
-                minWidth: constraints.maxWidth,
-                minHeight: constraints.maxHeight,
-              ),
-            ),
           );
         },
       ),

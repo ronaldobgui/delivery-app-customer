@@ -1,6 +1,6 @@
-import 'package:delivery_app_customer/dto/inteface/entity_base.dart';
+import 'package:delivery_app_customer/dto/inteface/i_entity.dart';
 
-class Usuario extends EntityBase {
+class Usuario extends IEntity {
   @override
   int? id;
   String nome;
@@ -23,7 +23,7 @@ class Usuario extends EntityBase {
   @override
   Map<String, dynamic> toMap() {
     final map = {
-      'id': id,
+      'id': id?.toInt(),
       'nome': nome,
       'telefone': telefone,
       'email': email,
@@ -36,7 +36,7 @@ class Usuario extends EntityBase {
   }
 
   Usuario.fromMap(Map<String, dynamic> map)
-      : id = map['id'],
+      : id = map['id']?.toInt(),
         nome = map['nome'],
         telefone = map['telefone'],
         email = map['email'],

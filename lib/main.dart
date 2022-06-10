@@ -1,7 +1,6 @@
 import 'package:delivery_app_customer/screens/home/home.dart';
 import 'package:delivery_app_customer/screens/perfil/cartao.dart';
-import 'package:delivery_app_customer/screens/perfil/endereco.dart';
-import 'package:delivery_app_customer/screens/perfil/endereco_add.dart';
+import 'package:delivery_app_customer/screens/perfil/endereco_list.dart';
 import 'package:delivery_app_customer/screens/perfil/pagamento.dart';
 import 'package:delivery_app_customer/screens/user/user_sign_email.dart';
 import 'package:delivery_app_customer/screens/user/user_sign_in.dart';
@@ -31,8 +30,7 @@ class App extends StatelessWidget {
         UserSignUp.routeName: (context) => const UserSignUp(),
         Home.routeName: (context) => const Home(),
         Pagamento.routeName: (context) => const Pagamento(),
-        Endereco.routeName: (context) => const Endereco(),
-        EnderecoAdd.routeName: (context) => const EnderecoAdd(),
+        EnderecoList.routeName: (context) => const EnderecoList(),
         Cartao.routeName: (context) => const Cartao(),
       },
     );

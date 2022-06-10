@@ -22,10 +22,10 @@ class AuthenticationService {
     return _usuario?.token;
   }
 
-  Future<Usuario> signIn(Usuario dto) async {
+  Future<Usuario> signIn(Usuario usuario) async {
     final p = await http.post(
       Uri.parse('$_path/login'),
-      body: jsonEncode(dto.toMap()),
+      body: jsonEncode(usuario.toMap()),
       headers: {
         HttpHeaders.contentTypeHeader: "application/json",
         HttpHeaders.acceptHeader: "application/json",
@@ -34,8 +34,9 @@ class AuthenticationService {
     return _usuario = Usuario.fromMap(jsonDecode(p.body));
   }
 
-  Future<Usuario> signUp(Usuario dto) async {
-    await _usuarioRepository.add(dto);
-    return await signIn(dto);
+  Future<Usuario> signUp(Usuario usuario) async {
+    usuario.dataCadastro = DateTime.now();
+    await _usuarioRepository.add(usuario);
+    return await signIn(usuario);
   }
 }

@@ -14,17 +14,18 @@ class ClienteFirebaseRepository extends IRepository<Cliente> {
   }
 
   @override
-  Future<Cliente> add(Cliente dto) async {
+  // ignore: avoid_renaming_method_parameters
+  Future<Cliente> add(Cliente cliente) async {
     await http.post(
       Uri.parse(_path),
-      body: jsonEncode(dto.toMap()),
+      body: jsonEncode(cliente.toMap()),
       headers: {
         HttpHeaders.contentTypeHeader: "application/json",
         HttpHeaders.acceptHeader: "application/json",
         HttpHeaders.authorizationHeader: 'Bearer $_currentToken',
       },
     );
-    return dto;
+    return cliente;
   }
 
   @override
@@ -40,10 +41,11 @@ class ClienteFirebaseRepository extends IRepository<Cliente> {
   }
 
   @override
-  Future<void> delete(Cliente dto) async {
+  // ignore: avoid_renaming_method_parameters
+  Future<void> delete(Cliente cliente) async {
     await http.delete(
       Uri.parse(_path),
-      body: jsonEncode(dto.toMap()),
+      body: jsonEncode(cliente.toMap()),
       headers: {
         HttpHeaders.contentTypeHeader: "application/json",
         HttpHeaders.acceptHeader: "application/json",
@@ -70,20 +72,24 @@ class ClienteFirebaseRepository extends IRepository<Cliente> {
         HttpHeaders.authorizationHeader: 'Bearer $_currentToken',
       },
     );
-    return Cliente.fromMap(jsonDecode(response.body));
+    if (response.statusCode == 200) {
+      return Cliente.fromMap(jsonDecode(response.body));
+    }
+    return null;
   }
 
   @override
-  Future<Cliente> update(Cliente dto) async {
+  // ignore: avoid_renaming_method_parameters
+  Future<Cliente> update(Cliente cliente) async {
     await http.put(
       Uri.parse(_path),
-      body: jsonEncode(dto.toMap()),
+      body: jsonEncode(cliente.toMap()),
       headers: {
         HttpHeaders.contentTypeHeader: "application/json",
         HttpHeaders.acceptHeader: "application/json",
         HttpHeaders.authorizationHeader: 'Bearer $_currentToken',
       },
     );
-    return dto;
+    return cliente;
   }
 }

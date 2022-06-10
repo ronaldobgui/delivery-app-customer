@@ -1,3 +1,3 @@
-abstract class DtoBase {
+abstract class IDto {
   Map<String, dynamic> toMap();
 }

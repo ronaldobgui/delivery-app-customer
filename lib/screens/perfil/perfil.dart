@@ -1,7 +1,7 @@
 import 'package:delivery_app_customer/dto/cliente.dart';
 import 'package:delivery_app_customer/dto/usuario.dart';
 import 'package:delivery_app_customer/repository/cliente_repository.dart';
-import 'package:delivery_app_customer/screens/perfil/endereco.dart';
+import 'package:delivery_app_customer/screens/perfil/endereco_list.dart';
 import 'package:delivery_app_customer/screens/perfil/list_item.dart';
 import 'package:delivery_app_customer/screens/perfil/meus_dados.dart';
 import 'package:delivery_app_customer/screens/perfil/pagamento.dart';
@@ -52,7 +52,7 @@ class _PerfilState extends State<Perfil> {
       subTitle: 'Meus endereços para entrega',
       icon: Icons.location_pin,
       event: (context) {
-        Navigator.of(context).pushNamed(Endereco.routeName);
+        Navigator.of(context).pushNamed(EnderecoList.routeName);
       },
     ),
     ListItem(

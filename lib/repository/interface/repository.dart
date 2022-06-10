@@ -1,6 +1,6 @@
-import 'package:delivery_app_customer/dto/inteface/entity_base.dart';
+import 'package:delivery_app_customer/dto/inteface/i_entity.dart';
 
-abstract class IRepository<T extends EntityBase> {
+abstract class IRepository<T extends IEntity> {
   Future<T> add(T dto);
   Future<List<T>> all();
   Future<void> delete(T dto);
