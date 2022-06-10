@@ -6,8 +6,8 @@ class ClienteService {
 
   ClienteService(this._clienteRepository);
 
-  Future<void> add(Cliente dto) async {
-    await _clienteRepository.add(dto);
+  Future<Cliente> add(Cliente dto) async {
+    return await _clienteRepository.add(dto);
   }
 
   Future<List<Cliente>> all() async {
@@ -18,11 +18,11 @@ class ClienteService {
     await _clienteRepository.all();
   }
 
-  Future<Cliente?> get(String id) async {
+  Future<Cliente?> get(int id) async {
     return await _clienteRepository.get(id);
   }
 
-  Future<void> update(Cliente dto) async {
+  Future<Cliente> update(Cliente dto) async {
     return await _clienteRepository.update(dto);
   }
 }

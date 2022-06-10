@@ -1,38 +1,45 @@
 import 'package:delivery_app_customer/dto/inteface/entity_base.dart';
 
 class Usuario extends EntityBase {
+  @override
+  int? id;
   String nome;
   String telefone;
   String email;
-  String senha;
-  DateTime dataCadastro;
+  String? senha;
+  DateTime? dataCadastro;
+  String? token;
 
   Usuario({
-    required int id,
-    required this.nome,
-    required this.telefone,
-    required this.email,
-    required this.senha,
-    required this.dataCadastro,
-  }) : super(id: id);
+    this.id,
+    this.nome = '',
+    this.telefone = '',
+    this.email = '',
+    this.senha = '',
+    this.dataCadastro,
+    this.token,
+  });
 
   @override
   Map<String, dynamic> toMap() {
-    return {
+    final map = {
       'id': id,
       'nome': nome,
       'telefone': telefone,
       'email': email,
       'senha': senha,
-      'dataCadastro': dataCadastro.toIso8601String(),
+      'dataCadastro': dataCadastro?.toIso8601String(),
+      'token': token,
     };
+    map.removeWhere((key, value) => value == null);
+    return map;
   }
 
   Usuario.fromMap(Map<String, dynamic> map)
-      : nome = map['nome'],
+      : id = map['id'],
+        nome = map['nome'],
         telefone = map['telefone'],
         email = map['email'],
-        senha = map['senha'],
         dataCadastro = DateTime.parse(map['dataCadastro']),
-        super(id: map['id']);
+        token = map['token'];
 }

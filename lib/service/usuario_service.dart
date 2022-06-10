@@ -6,8 +6,8 @@ class UsuarioService {
 
   UsuarioService(this._usuarioRepository);
 
-  Future<void> add(Usuario dto) async {
-    await _usuarioRepository.add(dto);
+  Future<Usuario> add(Usuario dto) async {
+    return await _usuarioRepository.add(dto);
   }
 
   Future<List<Usuario>> all() async {
@@ -18,11 +18,11 @@ class UsuarioService {
     await _usuarioRepository.all();
   }
 
-  Future<Usuario?> get(String id) async {
+  Future<Usuario?> get(int id) async {
     return await _usuarioRepository.get(id);
   }
 
-  Future<void> update(Usuario dto) async {
+  Future<Usuario> update(Usuario dto) async {
     return await _usuarioRepository.update(dto);
   }
 }

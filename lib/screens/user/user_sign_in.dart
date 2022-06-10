@@ -1,4 +1,6 @@
 import 'package:delivery_app_customer/dto/usuario.dart';
+import 'package:delivery_app_customer/repository/interface/repository.dart';
+import 'package:delivery_app_customer/repository/usuario_repository.dart';
 import 'package:delivery_app_customer/screens/home/home.dart';
 import 'package:delivery_app_customer/screens/mask/phone_mask.dart';
 import 'package:delivery_app_customer/screens/user/user_sign_email.dart';
@@ -19,16 +21,14 @@ class UserSignIn extends StatefulWidget {
 class _UserSignInState extends State<UserSignIn> {
   final _formKey = GlobalKey<FormState>();
 
-  final _usuario = Usuario(
-    id: 0,
-    email: '',
-    nome: '',
+  Usuario _usuario = Usuario(
     senha: '12345678',
-    telefone: '(65) 99624-2881',
+    telefone: '65996242881',
     dataCadastro: DateTime.now(),
   );
 
-  final _service = AuthenticationService();
+  late final IRepository<Usuario> _usuarioRepository;
+  late final AuthenticationService _auth;
 
   late final TextInputMask _phoneMask;
 
@@ -36,6 +36,10 @@ class _UserSignInState extends State<UserSignIn> {
   void initState() {
     super.initState();
     _phoneMask = getPhoneMask();
+    _usuario.telefone = _phoneMask.magicMask.getMaskedString(_usuario.telefone);
+    //
+    _usuarioRepository = UsuarioFirebaseRepository();
+    _auth = AuthenticationService(_usuarioRepository);
   }
 
   @override
@@ -113,7 +117,7 @@ class _UserSignInState extends State<UserSignIn> {
                         }
                         if (state != null && state.validate()) {
                           try {
-                            await _service.getToken(_usuario);
+                            _usuario = await _auth.signIn(_usuario);
                             Navigator.of(context).pushNamedAndRemoveUntil(
                               Home.routeName,
                               (route) => false,
@@ -122,28 +126,28 @@ class _UserSignInState extends State<UserSignIn> {
                           //
                           catch (error) {
                             showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: const Text('Erro'),
-                                    content: SingleChildScrollView(
-                                      child: ListBody(
-                                        children: const [
-                                          Text('Credenciais incorretas'),
-                                        ],
-                                      ),
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Erro'),
+                                  content: SingleChildScrollView(
+                                    child: ListBody(
+                                      children: const [
+                                        Text('Email ou senha incorretos'),
+                                      ],
                                     ),
-                                    actions: [
-                                      TextButton(
-                                        child: const Text('Ok'),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      child: const Text('Ok'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           }
                         }
                       },

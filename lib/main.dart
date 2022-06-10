@@ -9,7 +9,9 @@ import 'package:delivery_app_customer/screens/user/user_sign_up.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
-  runApp(const App());
+  runApp(
+    const App(),
+  );
 }
 
 class App extends StatelessWidget {

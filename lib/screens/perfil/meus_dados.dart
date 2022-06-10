@@ -7,23 +7,24 @@ import 'package:delivery_app_customer/screens/home/home.dart';
 import 'package:delivery_app_customer/screens/mask/cpf_mask.dart';
 import 'package:delivery_app_customer/screens/mask/date_mask.dart';
 import 'package:delivery_app_customer/screens/mask/phone_mask.dart';
-import 'package:delivery_app_customer/service/authentication_service.dart';
 import 'package:delivery_app_customer/service/cliente_service.dart';
+import 'package:delivery_app_customer/service/usuario_service.dart';
 import 'package:easy_mask/easy_mask.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class UserSignUp extends StatefulWidget {
-  static const String routeName = '/user-sign-up';
+class MeusDados extends StatefulWidget {
+  final Usuario usuario;
+  final Cliente cliente;
 
-  const UserSignUp({Key? key}) : super(key: key);
+  const MeusDados({Key? key, required this.usuario, required this.cliente}) : super(key: key);
 
   @override
-  State<UserSignUp> createState() => _UserSignUpState();
+  State<MeusDados> createState() => _MeusDadosState();
 }
 
-class _UserSignUpState extends State<UserSignUp> {
+class _MeusDadosState extends State<MeusDados> {
   final _formKey = GlobalKey<FormState>();
 
   late final TextInputMask _cpfMask;
@@ -33,18 +34,21 @@ class _UserSignUpState extends State<UserSignUp> {
   late final IRepository<Usuario> _usuarioRepository;
   late final IRepository<Cliente> _clienteRepository;
 
+  late final UsuarioService _usuarioService;
   late final ClienteService _clienteService;
-
-  late final AuthenticationService _auth;
 
   final _dateFormat = DateFormat('dd/MM/yyyy');
 
-  Cliente _cliente = Cliente();
-  Usuario _usuario = Usuario();
+  late final Usuario _usuario;
+  late final Cliente _cliente;
 
   @override
   void initState() {
     super.initState();
+
+    _usuario = widget.usuario;
+    _cliente = widget.cliente;
+
     _cpfMask = getCpfMask();
     _phoneMask = getPhoneMask();
     _dateMask = getDateMask();
@@ -52,16 +56,15 @@ class _UserSignUpState extends State<UserSignUp> {
     _usuarioRepository = UsuarioFirebaseRepository();
     _clienteRepository = ClienteFirebaseRepository();
     //
+    _usuarioService = UsuarioService(_usuarioRepository);
     _clienteService = ClienteService(_clienteRepository);
-    //
-    _auth = AuthenticationService(_usuarioRepository);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Crie a sua conta'),
+        title: const Text('Meus dados'),
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -94,7 +97,7 @@ class _UserSignUpState extends State<UserSignUp> {
                         height: 15,
                       ),
                       TextFormField(
-                        initialValue: _cliente.cpf,
+                        initialValue: _cpfMask.magicMask.getMaskedString(_cliente.cpf),
                         onSaved: (value) {
                           _cliente.cpf = value!.replaceAll(RegExp(r'\D'), '');
                         },
@@ -120,7 +123,7 @@ class _UserSignUpState extends State<UserSignUp> {
                         height: 15,
                       ),
                       TextFormField(
-                        initialValue: _usuario.telefone,
+                        initialValue: _phoneMask.magicMask.getMaskedString(_usuario.telefone),
                         onSaved: (value) {
                           _usuario.telefone = value!.replaceAll(RegExp(r'\D'), '');
                         },
@@ -204,21 +207,11 @@ class _UserSignUpState extends State<UserSignUp> {
                           labelText: 'Senha',
                         ),
                         obscureText: true,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'A senha não pode ser vazia';
-                          }
-                          if (value.length < 8) {
-                            return 'A senha deve ter pelo menos 8 caracteres';
-                          }
-                          return null;
-                        },
                       ),
                       const SizedBox(
                         height: 15,
                       ),
                       TextFormField(
-                        initialValue: '',
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Confirme a Senha',
@@ -241,7 +234,7 @@ class _UserSignUpState extends State<UserSignUp> {
                         height: 15,
                       ),
                       ElevatedButton(
-                        child: const Text('Cadastrar'),
+                        child: const Text('Salvar'),
                         onPressed: () async {
                           var state = _formKey.currentState;
                           if (state != null) {
@@ -249,9 +242,8 @@ class _UserSignUpState extends State<UserSignUp> {
                           }
                           if (state != null && state.validate()) {
                             try {
-                              _usuario = await _auth.signUp(_usuario);
-                              _cliente.usuarioId = _usuario.id;
-                              _cliente = await _clienteService.add(_cliente);
+                              await _usuarioService.update(_usuario);
+                              await _clienteService.update(_cliente);
                               //
                               Navigator.of(context).pushNamedAndRemoveUntil(
                                 Home.routeName,

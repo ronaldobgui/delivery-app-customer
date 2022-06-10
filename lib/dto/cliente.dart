@@ -1,35 +1,34 @@
 import 'package:delivery_app_customer/dto/inteface/entity_base.dart';
-import 'package:delivery_app_customer/dto/usuario.dart';
 
 class Cliente extends EntityBase {
-  String nome;
+  @override
+  int? id;
   String cpf;
-  DateTime dataNascimento;
-  Usuario usuario;
+  DateTime? dataNascimento;
+  int? usuarioId;
 
   Cliente({
-    required int id,
-    required this.nome,
-    required this.cpf,
-    required this.dataNascimento,
-    required this.usuario,
-  }) : super(id: id);
+    this.id,
+    this.cpf = '',
+    this.dataNascimento,
+    this.usuarioId = 0,
+  });
 
   @override
   Map<String, dynamic> toMap() {
-    return {
+    final map = {
       'id': id,
-      'nome': nome,
-      'telefone': cpf,
-      'dataNascimento': dataNascimento.toIso8601String(),
-      'usuario': usuario.toMap(),
+      'cpf': cpf,
+      'dataNascimento': dataNascimento?.toIso8601String(),
+      'usuarioId': usuarioId,
     };
+    map.removeWhere((key, value) => value == null);
+    return map;
   }
 
   Cliente.fromMap(Map<String, dynamic> map)
-      : nome = map['nome'],
-        cpf = map['telefone'],
+      : id = map['id'].toInt(),
+        cpf = map['cpf'],
         dataNascimento = DateTime.parse(map['dataNascimento']),
-        usuario = Usuario.fromMap(map['usuario']),
-        super(id: map['id']);
+        usuarioId = map['usuarioId'];
 }
