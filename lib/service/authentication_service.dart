@@ -31,12 +31,16 @@ class AuthenticationService {
         HttpHeaders.acceptHeader: "application/json",
       },
     );
-    return _usuario = Usuario.fromMap(jsonDecode(p.body));
+    _usuario = Usuario.fromMap(jsonDecode(p.body));
+    _usuario?.senha = '';
+    return _usuario!;
   }
 
   Future<Usuario> signUp(Usuario usuario) async {
     usuario.dataCadastro = DateTime.now();
     await _usuarioRepository.add(usuario);
-    return await signIn(usuario);
+    _usuario = await signIn(usuario);
+    _usuario?.senha = '';
+    return _usuario!;
   }
 }

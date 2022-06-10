@@ -1,12 +1,14 @@
+import 'package:delivery_app_customer/dto/endereco.dart';
 import 'package:delivery_app_customer/dto/usuario.dart';
 import 'package:delivery_app_customer/screens/perfil/endereco_add.dart';
 import 'package:delivery_app_customer/service/authentication_service.dart';
 import 'package:flutter/material.dart';
 
 class EnderecoList extends StatefulWidget {
-  static const routeName = '/endereco-list';
+  final Usuario usuario;
+  final List<Endereco> enderecos;
 
-  const EnderecoList({Key? key}) : super(key: key);
+  const EnderecoList({Key? key, required this.usuario, required this.enderecos}) : super(key: key);
 
   @override
   State<EnderecoList> createState() => _EnderecoListState();

@@ -51,8 +51,19 @@ class _PerfilState extends State<Perfil> {
       title: 'Endereços',
       subTitle: 'Meus endereços para entrega',
       icon: Icons.location_pin,
-      event: (context) {
-        Navigator.of(context).pushNamed(EnderecoList.routeName);
+      event: (context) async {
+        final Usuario? usuario = AuthenticationService.currentUser;
+        if(usuario == null) {
+          throw Exception('Usuário não está logado');
+        }
+        // busca de endereços não está funcionando
+        // final enderecoRepository = EnderecoFirebaseRepository();
+        // List<Endereco> enderecos = await enderecoRepository.getByUsuarioId(usuario.id!);
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) {
+            return EnderecoList(usuario: usuario, enderecos: const []);
+          }),
+        );
       },
     ),
     ListItem(

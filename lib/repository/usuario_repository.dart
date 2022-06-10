@@ -24,7 +24,6 @@ class UsuarioFirebaseRepository extends IRepository<Usuario> {
         HttpHeaders.acceptHeader: "application/json",
       },
     );
-    usuario.senha = '';
     return usuario;
   }
 
@@ -77,7 +76,6 @@ class UsuarioFirebaseRepository extends IRepository<Usuario> {
         HttpHeaders.authorizationHeader: 'Bearer $_currentToken',
       },
     );
-    usuario.senha = '';
     return usuario;
   }
 }

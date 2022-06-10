@@ -7,7 +7,9 @@ class UsuarioService {
   UsuarioService(this._usuarioRepository);
 
   Future<Usuario> add(Usuario dto) async {
-    return await _usuarioRepository.add(dto);
+    final _usuario = await _usuarioRepository.add(dto);
+    _usuario.senha = '';
+    return _usuario;
   }
 
   Future<List<Usuario>> all() async {
@@ -23,6 +25,8 @@ class UsuarioService {
   }
 
   Future<Usuario> update(Usuario dto) async {
-    return await _usuarioRepository.update(dto);
+    final _usuario = await _usuarioRepository.update(dto);
+    _usuario.senha = '';
+    return _usuario;
   }
 }
